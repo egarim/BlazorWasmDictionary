@@ -1,0 +1,62 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+<input type="text" id="key" name="key" @bind-value="Key">
+<br>
+<br>
+<input type="text" id="value" name="value" @bind-value="Value">
+<br>
+<br>
+<button @onclick="(()=>this.SetValue(Key,Value))">Submit</button>
+
+
+
+<table>
+    <tr>
+        <th>Value</th>
+        <th>Label</th>
+    </tr>
+    @foreach (var item in dictionary)
+    {
+        <tr>
+
+            <td>@item.Key</td>
+           @* <td>@(() => this.GetValue(item.Value))</td>*@
+            <td><input type="text" id="@item.Key" name="value" @bind-value="@item.Value.PropertyValue"></td>
+        </tr>
+    }
+</table>
+
+
+@code {
+   
+    Dictionary<string, ValueClass> dictionary = new Dictionary<string, ValueClass>();
+    protected override void OnInitialized()
+    {
+
+        dictionary.Add("A", new ValueClass() { PropertyValue="A"});
+        dictionary.Add("B", new ValueClass() { PropertyValue = "B" });
+        base.OnInitialized();
+
+    }
+    string Key;
+    string Value;
+    public ValueClass GetValue(string Key)
+    {
+        return dictionary[Key];
+    }
+    public void SetValue(string Key, string Value)
+    {
+        dictionary[Key].PropertyValue = Value;
+        this.StateHasChanged();
+    }
+
+
+
+}
