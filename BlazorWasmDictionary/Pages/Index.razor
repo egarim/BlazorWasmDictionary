@@ -28,7 +28,7 @@ Welcome to your new app.
 
             <td>@item.Key</td>
            @* <td>@(() => this.GetValue(item.Value))</td>*@
-            <td><input type="text" id="@item.Key" name="value" @bind-value="@item.Value.PropertyValue"></td>
+            <td><input type="text" id="@item.Key" name="value" @bind-value="@dictionary[item.Key]"></td>
         </tr>
     }
 </table>
@@ -36,24 +36,24 @@ Welcome to your new app.
 
 @code {
    
-    Dictionary<string, ValueClass> dictionary = new Dictionary<string, ValueClass>();
+    Dictionary<string, string> dictionary = new Dictionary<string, string>();
     protected override void OnInitialized()
     {
 
-        dictionary.Add("A", new ValueClass() { PropertyValue="A"});
-        dictionary.Add("B", new ValueClass() { PropertyValue = "B" });
+        dictionary.Add("A", "A");
+        dictionary.Add("B", "B");
         base.OnInitialized();
 
     }
     string Key;
     string Value;
-    public ValueClass GetValue(string Key)
+    public string GetValue(string Key)
     {
         return dictionary[Key];
     }
     public void SetValue(string Key, string Value)
     {
-        dictionary[Key].PropertyValue = Value;
+        dictionary[Key] = Value;
         this.StateHasChanged();
     }
 
